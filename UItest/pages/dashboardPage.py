@@ -19,7 +19,6 @@ class DashboardPage(BasePage):
 
     def test_all_category(self):
         categories = ["All", "New", "In Progress", "Cancelled", "Won", "Deferred"]
-        self.closeCookiesPopup()
         self.validatePageText("Demand Pursuits")
         for cat in categories:
             self.page.wait_for_timeout(500)
@@ -33,3 +32,9 @@ class DashboardPage(BasePage):
         for option in options:
             self.validatePageText(option, self.menuContainer)
         self.collapseMenu.click()
+
+    def click_menu_option(self, option):
+        self.expandMenu.click()
+        option_locator = self.menuContainer.locator(f"text={option}")
+        expect(option_locator).to_be_visible()
+        option_locator.click()
