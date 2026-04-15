@@ -14,7 +14,7 @@ def page():
         context = browser.new_context()
 
         page = context.new_page()
-        page.goto("https://google.com/")
+        page.goto("https://dna-preprod.hashedin.com/pursuits/")
         yield page
 
         browser.close()
