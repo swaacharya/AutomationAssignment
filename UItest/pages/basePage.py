@@ -12,6 +12,10 @@ class BasePage:
         self.searchIcon = self.page.locator('[data-icon="search"]')
         self.searchInput = self.page.locator('input[placeholder^="Search"]').nth(0)
 
+        #headers loactor
+        self.profile = self.page.locator(".user-profile-container").nth(0)
+        self.logoutButton = self.page.locator('text=Logout').nth(0)
+
     def navigateToURL(self, url):
         self.page.goto(url)
         self.page.bring_to_front()
@@ -48,3 +52,8 @@ class BasePage:
         print(searchResults.inner_text())
         rowText = searchResults.nth(0).inner_text()
         assert searchTerm in rowText, f"Search term '{searchTerm}' not found in row: {rowText}"
+
+    def logout(self):
+        self.profile.click()
+        self.logoutButton.click()
+        self.validatePageText("Login to continue")
