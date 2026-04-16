@@ -3,6 +3,8 @@ from pages.basePage import BasePage
 from testData.Date import Date
 from testData.createPursuitData import pursuitData
 
+from conftest import DataStore
+
 class CreatePursuitPage(BasePage):
     def __init__(self, page):
         super().__init__(page)
@@ -62,34 +64,78 @@ class CreatePursuitPage(BasePage):
 
         self.save_client_button.click()
 
-    def create_pursuit(self, client_name, name, description):
+    def enter_pursuit_name(self, name):
         self.pursuit_name_input.fill(name)
 
+    def select_proposal_type(self):
         self.proposal_type.click()
         self.proposal_type_option_0.click()
 
+    def select_type_of_project(self):
         self.type_of_project.click()
         self.type_of_project_option_0.click()
-
+    
+    def select_country(self):
         self.country_field.click()
         self.country_option_0.click()
 
+    def select_billing_arrangement(self):
         self.billing_arragement.click()
         self.billing_arragement_0.click()
 
+    def select_project_dates(self):
         self.project_start_date.click()
         self.page.locator(f"[title=\"{Date['today']}\"]").click()
         self.page.locator(f"[title=\"{Date['todayplus30']}\"]").click()
         self.done_button.click()
-
         # self.page.evaluate(f"document.querySelector('{self.project_start_date}').value = '{Date['today']}'")
         # self.page.evaluate(f"document.querySelector('{self.project_end_date}').value = '{Date['todayplus30']}'")
 
-        self.jupiter_id_input.fill(pursuitData["jupiter_id"])
+    def enter_jupiter_id(self, jupiter_id):
+        self.jupiter_id_input.fill(jupiter_id)
 
+    def enter_des_ref_links(self, description, reference_link):
         self.pursuit_description_input.fill(description)
-        self.reference_links_input.fill(pursuitData["reference_link"])
+        self.reference_links_input.fill(reference_link)
+
+    def create_pursuit(self, client_name, name, description):
+        self.enter_pursuit_name(name)
+        
+        self.select_proposal_type()
+
+        self.select_type_of_project()
+
+        self.select_country()
+
+        self.select_billing_arrangement()
+
+        self.select_project_dates()
+
+        self.enter_jupiter_id(pursuitData["jupiter_id"])
+
+        self.enter_des_ref_links(description, pursuitData["reference_link"])
 
         self.save_button.click()
 
         self.validatePageText("Successfully submitted")
+
+        pursuit_data = {
+            "header": f"{client_name} | {name}",
+            "proposal_type": "RFP",
+            "type_of_project": "Native Cloud Development",
+            "country": "Afghanistan",
+            "billing_arrangement": "Fixed Fee",
+            "jupiter_id": pursuitData["jupiter_id"],
+            "reference_link": pursuitData["reference_link"],
+            "description": pursuitData["description"],
+            "industry": "Cross Industry",
+            "sector": "Not applicable",
+            "start_date": Date["today"],
+            "end_date": Date["todayplus30"]
+    }
+
+        print(pursuit_data)
+
+        DataStore.set_data("pursuit_data", pursuit_data)
+        DataStore.set_data("pursuit_name", name)
+
