@@ -4,6 +4,8 @@ from conftest import DataStore
 class BasePage:
     def __init__(self, page):
         self.page = page
+
+        #cookies popup locator
         self.cookiesPopup = self.page.locator('[id="onetrust-close-btn-container"]')
 
         #table headers locator
@@ -20,6 +22,7 @@ class BasePage:
         self.profile = self.page.locator(".user-profile-container").nth(0)
         self.logoutButton = self.page.locator('text=Logout').nth(0)
 
+    #common functions for all pages
     def navigateToURL(self, url):
         self.page.goto(url)
         self.page.bring_to_front()

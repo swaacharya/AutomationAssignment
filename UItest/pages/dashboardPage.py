@@ -1,7 +1,5 @@
-import sys
-
 from pages.basePage import BasePage
-import re
+
 from playwright.sync_api import expect
 
 class DashboardPage(BasePage):
@@ -18,8 +16,11 @@ class DashboardPage(BasePage):
         self.menuContainer = self.page.locator('[class^="_menuItemsContainer_"]')
 
     def test_all_category(self):
+        #declaring categories to validate
         categories = ["All", "New", "In Progress", "Cancelled", "Won", "Deferred"]
         self.validatePageText("Demand Pursuits")
+        
+        #iterating through each category and validating the count is a positive digit
         for cat in categories:
             self.page.wait_for_timeout(500)
             self.catCard.filter(has_text=cat)
