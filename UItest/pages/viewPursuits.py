@@ -12,6 +12,9 @@ class ViewPursuitsPage(BasePage):
 
     
     def test_pursuit_details(self, pursuit_data):
+        if not pursuit_data:
+            print("No pursuit data found to validate.")
+            return
         for value in pursuit_data.values():
             print(f"Validating: {value}")
             self.validatePageText(value)

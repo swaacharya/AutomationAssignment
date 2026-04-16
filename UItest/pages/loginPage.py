@@ -1,4 +1,5 @@
 from pages.basePage import BasePage
+from playwright.sync_api import expect
 
 class LoginPage(BasePage):
     def __init__(self, page):
@@ -14,9 +15,6 @@ class LoginPage(BasePage):
         self.user_name_field.fill(username)
         self.password_field.fill(password)
         self.submit_button.click()
-        self.page.wait_for_load_state("networkidle")
-        self.page.wait_for_timeout(2000)
-        self.closeCookiesPopup()
 
     def clickSSOLogin(self):
         self.SOOLoginButton.click()

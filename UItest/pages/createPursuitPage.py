@@ -97,6 +97,8 @@ class CreatePursuitPage(BasePage):
     def enter_des_ref_links(self, description, reference_link):
         self.pursuit_description_input.fill(description)
         self.reference_links_input.fill(reference_link)
+    def submit_pursuit(self):
+        self.save_button.click()
 
     def create_pursuit(self, client_name, name, description):
         self.enter_pursuit_name(name)
@@ -115,7 +117,7 @@ class CreatePursuitPage(BasePage):
 
         self.enter_des_ref_links(description, pursuitData["reference_link"])
 
-        self.save_button.click()
+        self.submit_pursuit();
 
         self.validatePageText("Successfully submitted")
 

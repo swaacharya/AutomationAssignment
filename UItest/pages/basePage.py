@@ -1,4 +1,5 @@
 from playwright.sync_api import expect
+from conftest import DataStore
 
 class BasePage:
     def __init__(self, page):
@@ -11,6 +12,9 @@ class BasePage:
         #search bar locator
         self.searchIcon = self.page.locator('[data-icon="search"]')
         self.searchInput = self.page.locator('input[placeholder^="Search"]').nth(0)
+
+        #search term locator
+        self.searchTermLocator = self.page.locator('.proposal-name-text').nth(0)
 
         #headers loactor
         self.profile = self.page.locator(".user-profile-container").nth(0)
@@ -31,6 +35,8 @@ class BasePage:
         expect(title).to_be_visible()
 
     def closeCookiesPopup(self):
+        self.page.wait_for_load_state("networkidle")
+        self.page.wait_for_timeout(2000)
         self.cookiesPopup.click()
 
     def validateTableHeaders(self, tableHeaders):
@@ -38,8 +44,14 @@ class BasePage:
             headerLocator = self.tableHeaders.nth(i)
             expect(headerLocator).to_be_visible()
             expect(headerLocator).to_have_text(header)
+    
+    def getSearchTerm(self):
+        return self.searchTermLocator.inner_text()
 
     def search(self, searchTerm):
+        if(searchTerm == None or searchTerm == ""):
+            DataStore.set_data("searchTerm", self.getSearchTerm())
+            searchTerm = self.getSearchTerm()
         self.page.reload()
         self.page.wait_for_load_state("networkidle")
         self.page.wait_for_timeout(1000)
@@ -48,6 +60,8 @@ class BasePage:
         self.searchInput.fill(searchTerm)
 
     def validateSearchResults(self, searchTerm, columnIndex):
+        if(searchTerm == None or searchTerm == ""):
+            searchTerm = DataStore.get_data("searchTerm")
         searchResults = self.page.locator(f'tbody>tr:nth-child(2)>td:nth-child({columnIndex})')
         print(searchResults.inner_text())
         rowText = searchResults.nth(0).inner_text()
