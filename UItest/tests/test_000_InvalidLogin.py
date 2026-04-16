@@ -2,7 +2,7 @@
 from pages.loginPage import LoginPage
 
 #Import the test data
-from testData.loginCred import invalidCred, noCred
+from testData.loginCred import invalidCred1, noCred
 
 def test_user_login_without_credentials(page):
     login = LoginPage(page)
@@ -18,6 +18,6 @@ def test_user_login_with_invalid_credentials(page):
     login = LoginPage(page)
 
     login.login_to_persuit(
-        invalidCred["username"],
-        invalidCred["password"]
+        invalidCred1["username"],
+        invalidCred1["password"]
     ) 

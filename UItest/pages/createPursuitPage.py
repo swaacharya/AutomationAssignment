@@ -1,8 +1,10 @@
 from pages.basePage import BasePage
 
+#importing data for creating pursuit
 from testData.Date import Date
 from testData.createPursuitData import pursuitData
 
+#importing DataStore for storing pursuit data to be used in other tests
 from conftest import DataStore
 
 class CreatePursuitPage(BasePage):
@@ -97,6 +99,7 @@ class CreatePursuitPage(BasePage):
     def enter_des_ref_links(self, description, reference_link):
         self.pursuit_description_input.fill(description)
         self.reference_links_input.fill(reference_link)
+   
     def submit_pursuit(self):
         self.save_button.click()
 
