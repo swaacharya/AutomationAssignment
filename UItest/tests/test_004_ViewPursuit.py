@@ -11,7 +11,7 @@ def test_search_pursuit(page):
 
 def test_view_created_pursuit(page):
     view_pursuits_page = ViewPursuitsPage(page)
-    pursuit_name = DataStore.get_data("pursuit_name")
+    pursuit_name = DataStore.get_data("pursuit_name") if DataStore.get_data("pursuit_name") else DataStore.get_data("searchTerm")
     view_pursuits_page.click_searched_pursuit(pursuit_name)
 
 def test_validate_pursuit_details(page):

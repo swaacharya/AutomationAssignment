@@ -13,6 +13,7 @@ def test_user_login(page):
         validCred["username"],
         validCred["password"]
     )
+    login.closeCookiesPopup()
 
 def test_successful_login(page):
     login = LoginPage(page)
