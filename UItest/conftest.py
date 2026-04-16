@@ -19,3 +19,13 @@ def page():
 
         browser.close()
 
+class DataStore:
+    data = {}  # Shared across all calls
+
+    @classmethod
+    def set_data(cls, key, value):
+        cls.data[key] = value
+
+    @classmethod
+    def get_data(cls, key):
+        return cls.data.get(key)
